@@ -1,0 +1,5 @@
+customer_id,name,email,country
+101,Alice Johnson,alice@example.com,USA
+102,Bob Smith,bob@example.com,Canada
+103,Charlie Brown,charlie@example.com,UK
+104,Diana Prince,diana@example.com,USA
