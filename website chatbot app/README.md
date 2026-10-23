@@ -1,66 +1,63 @@
-# Website Chatbot
+# Website and Document Chatbots
 
-A Streamlit chatbot that reads a webpage and answers questions using its content.
-It uses LangChain, Chroma for retrieval, and OpenAI for embeddings and chat
-responses.
+This repository contains Streamlit apps that use OpenAI to answer questions
+about webpages or uploaded files.
 
 ## Requirements
 
-- Windows with Miniconda installed
+- Python 3.10 or newer
 - An OpenAI API key
-- Python 3.10 in the `LangchainChatbot` Conda environment
+- Internet access for OpenAI API requests
 
-## Install dependencies
-
-Open PowerShell in this folder and activate the environment:
+Install the dependencies from this folder:
 
 ```powershell
-conda activate LangchainChatbot
+python -m pip install -r requirements.txt
 ```
 
-Install the app's packages:
+The app prompts for an OpenAI API key in its sidebar. Alternatively, set
+`OPENAI_API_KEY` in your environment or in a local `.env` file. Never commit
+your API key or `.env` file to GitHub.
+
+## Document chatbot
+
+Run the document Q&A app:
 
 ```powershell
-python -m pip install streamlit langchain langchain-community langchain-text-splitters langchain-openai chromadb python-dotenv beautifulsoup4
+python -m streamlit run document_chatbot.py
 ```
 
-## Configure the OpenAI API key
+Upload documents in the sidebar, click **Read documents**, then ask questions.
+Supported formats are PDF, Excel (`.xlsx`, `.xlsm`, `.xls`), CSV, JSON, TXT,
+Markdown, LOG, Word (`.docx`), and PowerPoint (`.pptx`). Files are limited to
+20 MB each. Scanned or image-only PDFs need OCR and are not supported.
 
-The app accepts the key in its sidebar. Alternatively, create a `.env` file next
-to `stramlit_run_app.py`:
+The app extracts and ranks relevant text excerpts locally, then sends those
+excerpts and your question to OpenAI to generate an answer. Do not upload
+sensitive documents unless you are comfortable sharing relevant excerpts with
+the OpenAI API.
 
-```text
-OPENAI_API_KEY=your-openai-api-key
+## Website chatbot
+
+Run the website Q&A app:
+
+```powershell
+python -m streamlit run website_chatbot.py
 ```
 
-Keep the key private. Do not commit the `.env` file to GitHub.
+Enter a webpage URL, click **Read website**, then ask questions about its text.
+The app reads regular HTML pages; sites that require JavaScript or block
+automated requests may not load.
 
-## Run the app
-
-From this folder, run:
+The original LangChain website chatbot is also available:
 
 ```powershell
 python -m streamlit run stramlit_run_app.py
 ```
 
-Open the local URL printed by Streamlit. Enter a webpage URL and OpenAI API key,
-select **Read website**, and then ask questions in the chat.
-
-## How it works
-
-1. Loads the webpage's readable text.
-2. Splits the text into overlapping chunks.
-3. Creates embeddings and stores them in a Chroma vector store for the session.
-4. Retrieves relevant excerpts to answer questions, using recent chat history
-   to clarify follow-up questions.
-
-The chatbot only uses the loaded webpage excerpts for answers. It reports when
-it cannot find an answer in those excerpts.
-
 ## Notes
 
-- The script filename is `stramlit_run_app.py` (including the spelling
-  `stramlit`).
-- The app needs an internet connection to read webpages and call OpenAI.
-- The script uses the `gpt-4o-mini` chat model and `text-embedding-3-small`
-  embeddings.
+- Streamlit prints a local URL when an app starts; open it in your browser.
+- `stramlit_run_app.py` keeps its original filename spelling.
+- The apps use the `gpt-4o-mini` model. The original LangChain app also uses
+  `text-embedding-3-small` embeddings.

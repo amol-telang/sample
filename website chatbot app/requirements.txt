@@ -1,0 +1,16 @@
+streamlit
+openai
+requests
+beautifulsoup4
+python-dotenv
+langchain
+langchain-community
+langchain-text-splitters
+langchain-openai
+langchain-huggingface
+chromadb
+pypdf
+openpyxl
+xlrd
+python-docx
+python-pptx
